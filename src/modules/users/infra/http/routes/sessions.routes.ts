@@ -1,15 +1,10 @@
 import { Router } from "express";
-import AuthenticateUserService from "@modules/users/services/AuthenticateUserService";
+import { container } from 'tsyringe';
+
+import SessionsController from "../controllers/SessionsController";
 
 const sessionsRouter = Router();
 
-sessionsRouter.post('/', async (request, response) => {
-  const { username, password } = request.body;
-  const authenticateUserService = new AuthenticateUserService()
-
-  const authUser = await authenticateUserService.execute({ username, password });
-
-  return response.json(authUser);
-})
+sessionsRouter.post('/', SessionsController.create)
 
 export default sessionsRouter;
