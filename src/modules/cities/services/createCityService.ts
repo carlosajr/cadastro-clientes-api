@@ -1,7 +1,7 @@
-import City from "../models/City";
-import CitiesRepository from "../repositories/CitiesRepository";
+import City from "@modules/cities/infra/typeorm/entities/City";
+import CitiesRepository from "@modules/cities/repositories/CitiesRepository";
 import { getCustomRepository } from 'typeorm';
-import AppError from "../errors/AppError";
+import AppError from '@shared/errors/AppError';
 
 interface Request {
   name: string,

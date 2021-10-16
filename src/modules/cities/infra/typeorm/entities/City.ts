@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-import State from "./State";
+import State from '@modules/states/infra/typeorm/entities/State';
 
 @Entity('cities')
 class City {

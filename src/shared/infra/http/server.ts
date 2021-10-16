@@ -2,9 +2,9 @@ import express from 'express';
 import 'express-async-errors';
 import 'reflect-metadata';
 
-import routes from './routes';
-import exceptionHandler from './middlewares/exceptionHandler';
-import './database';
+import routes from '@shared/infra/http/routes';
+import exceptionHandler from '@shared/infra/http/middlewares/exceptionHandler';
+import '@shared/infra/typeorm'
 
 const app = express();
 

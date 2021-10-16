@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 
-import CitiesRepository from "../repositories/CitiesRepository";
-import CreateCityService from "../services/createCityService";
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import CitiesRepository from '@modules/cities/repositories/CitiesRepository';
+import CreateCityService from '@modules/cities/services/createCityService';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 const citiesRouter = Router();
 
