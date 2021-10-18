@@ -1,21 +1,26 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import City from "@modules/cities/infra/typeorm/entities/City";
 
-import State from '@modules/states/infra/typeorm/entities/State';
-
-@Entity('cities')
-class City {
+@Entity('clients')
+class Client {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
-  @Column({ select: false })
-  state_id: string;
+  @Column()
+  gender: string;
 
-  @ManyToOne(() => State)
-  @JoinColumn({ name: 'state_id' })
-  state: State;
+  @Column()
+  birthDate: Date;
+
+  @Column({ select: false })
+  city_id: string;
+
+  @ManyToOne(() => City)
+  @JoinColumn({ name: 'city_id' })
+  city: City;
 
   @CreateDateColumn()
   created_at: Date;
@@ -24,4 +29,4 @@ class City {
   updated_at: Date;
 }
 
-export default City;
+export default Client;

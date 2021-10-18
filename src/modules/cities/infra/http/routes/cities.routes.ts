@@ -5,14 +5,11 @@ import CitiesController from '../controllers/CitiesController';
 
 const citiesRouter = Router();
 
-citiesRouter.use(ensureAuthenticated)
+citiesRouter.use(ensureAuthenticated);
 
-// citiesRouter.get('/', async (request, response) => {
-//   const cities = await citiesRepository.find();
+citiesRouter.get('/', CitiesController.list);
+citiesRouter.get('/:id', CitiesController.show);
 
-//   return response.json(cities);
-// })
-
-citiesRouter.post('/', CitiesController.create)
+citiesRouter.post('/', CitiesController.create);
 
 export default citiesRouter;
