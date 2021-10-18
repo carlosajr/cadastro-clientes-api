@@ -4,13 +4,28 @@ import { uuid } from 'uuidv4';
 import Client from '@modules/clients/infra/typeorm/entities/Client';
 import FakeClientsRepository from '@modules/clients/repositories/fakes/FakeClientsRepository';
 import CreateClientService from './CreateClientService';
+import FakeCitiesRepository from '@modules/cities/repositories/fakes/FakeCitiesRepository';
+import CreateCityService from '@modules/cities/services/CreateCityService';
+import AppError from '@shared/errors/AppError';
 
 let createClientService: CreateClientService;
+let createCityService: CreateCityService;
+let id: string;
 
 describe('CreateClient', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     const fakeClientRepository = new FakeClientsRepository();
-    createClientService = new CreateClientService(fakeClientRepository);
+    const fakeCitiesRepository = new FakeCitiesRepository();
+    createClientService = new CreateClientService(fakeClientRepository, fakeCitiesRepository);
+
+    createCityService = new CreateCityService(fakeCitiesRepository);
+
+    const city = await createCityService.execute({
+      name: 'Test Name',
+      state_id: uuid()
+    })
+
+    id = city.id;
   })
 
   it('should create a new client', async () => {
@@ -18,9 +33,18 @@ describe('CreateClient', () => {
       name: 'Test Name',
       gender: 'male',
       birthDate: new Date(),
-      city_id: uuid()
+      city_id: id
     })
 
     expect(client).toBeInstanceOf(Client)
+  })
+
+  it('should not create a new client with invalid city', async () => {
+    await expect(createClientService.execute({
+      name: 'Test Name',
+      gender: 'male',
+      birthDate: new Date(),
+      city_id: uuid()
+    })).rejects.toBeInstanceOf(AppError)
   })
 })

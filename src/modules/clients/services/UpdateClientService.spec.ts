@@ -1,4 +1,7 @@
+import FakeCitiesRepository from '@modules/cities/repositories/fakes/FakeCitiesRepository';
+import CreateCityService from '@modules/cities/services/CreateCityService';
 import AppError from '@shared/errors/AppError';
+import { uuid } from 'uuidv4';
 import Client from '../infra/typeorm/entities/Client';
 import FakeClientsRepository from '../repositories/fakes/FakeClientsRepository';
 import CreateClientService from './CreateClientService';
@@ -7,18 +10,29 @@ import UpdateClientService from './UpdateClientService';
 let createClientService: CreateClientService;
 let updateClientService: UpdateClientService;
 let client: Client;
+let createCityService: CreateCityService;
+let id: string;
 
 describe('UpdateClient', () => {
   beforeEach(async () => {
-    const fakeClientRepository = new FakeClientsRepository();
-    createClientService = new CreateClientService(fakeClientRepository);
-    updateClientService = new UpdateClientService(fakeClientRepository);
+    const fakeClientsRepository = new FakeClientsRepository();
+    const fakeCitiesRepository = new FakeCitiesRepository();
+    createClientService = new CreateClientService(fakeClientsRepository, fakeCitiesRepository);
+    updateClientService = new UpdateClientService(fakeClientsRepository);
+    createCityService = new CreateCityService(fakeCitiesRepository);
+
+    const city = await createCityService.execute({
+      name: 'Test Name',
+      state_id: uuid()
+    })
+
+    id = city.id;
 
     client = await createClientService.execute({
       name: 'Test Name',
       gender: 'male',
       birthDate: new Date(),
-      city_id: '123456789'
+      city_id: id
     })
   })
 

@@ -2,6 +2,8 @@ import express from 'express';
 import 'express-async-errors';
 import 'reflect-metadata';
 
+import swaggerUi from "swagger-ui-express";
+
 import * as Sentry from "@sentry/node";
 import * as Tracing from "@sentry/tracing";
 
@@ -10,6 +12,8 @@ import exceptionHandler from '@shared/infra/http/middlewares/exceptionHandler';
 
 import '@shared/infra/typeorm';
 import '@shared/container';
+
+import swaggerDoc from "@shared/infra/documentation/swagger/swagger-output.json";
 
 const app = express();
 
@@ -28,6 +32,8 @@ app.use(Sentry.Handlers.tracingHandler());
 app.use(express.json());
 
 app.use(routes);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use(Sentry.Handlers.errorHandler());
 

@@ -1,0 +1,444 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Cadastro de Clintes",
+    "description": "Documentação refente a API de sistema de cadastro de clientes",
+    "license": {
+      "name": "License MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create a new user",
+        "operationId": "createUser",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "User Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCreatedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Username already registered"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "description": "Autenticar o usuario e gerar o JWT",
+        "operationId": "authenticateUser",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAuth"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario Autenticado e JWT retornado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticatedUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "erro",
+                  "message": "username ou password invalidos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "Retorna os dados dos clients",
+        "operationId": "getClient",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientListGetRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Retorna os dados dos Clientes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientsGetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "City not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "Create a new client",
+        "operationId": "postClient",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientGetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cria o prestador e retorna os dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientGetResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "description": "Autorização utilizando Bearer Token no Header, utilize o endpoint de autorização para conseguir um Token",
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey"
+      }
+    },
+    "schemas": {
+      "jwtToken": {
+        "type": "string",
+        "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjE5OTg4NjgsImV4cCI6MTcwODMxMjQ2OCwic3ViIjoiYTQzODdhYzctZDFkZS00Y2YzLWE2OTAtY2YwMDk4NDFkYzNiIn0.LZPudCNp6QluDiTHkOZiJKN3uwI5B5f6vQgc0rzTpkY"
+      },
+      "id": {
+        "type": "string",
+        "example": "bcbcb486-2726-4d42-82de-05ab1138bf1f"
+      },
+      "name": {
+        "type": "string",
+        "example": "John Doe"
+      },
+      "gender": {
+        "type": "string",
+        "example": "male"
+      },
+      "birthDate": {
+        "type": "string",
+        "example": "1998-03-13T00:00:00.000Z"
+      },
+      "city": {
+        "type": "string",
+        "example": "443878cc-4309-47c4-825e-496ed3816931"
+      },
+      "state": {
+        "type": "string",
+        "example": "448b3e42-d03f-42c2-9ec4-b68e7023a50b"
+      },
+      "username": {
+        "type": "string",
+        "example": "johndoe"
+      },
+      "password": {
+        "type": "string",
+        "example": "12345678"
+      },
+      "number": {
+        "type": "number",
+        "example": 50
+      },
+      "created_at": {
+        "type": "string",
+        "example": "2021-05-25T21:42:38.554Z"
+      },
+      "updated_at": {
+        "type": "string",
+        "example": "2021-05-25T21:42:38.554Z"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "username": {
+            "$ref": "#/components/schemas/username"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          }
+        }
+      },
+      "UserAuth": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "$ref": "#/components/schemas/username"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          }
+        }
+      },
+      "UserCreatedResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "$ref": "#/components/schemas/name"
+              },
+              "username": {
+                "$ref": "#/components/schemas/username"
+              },
+              "id": {
+                "$ref": "#/components/schemas/id"
+              },
+              "created_at": {
+                "$ref": "#/components/schemas/created_at"
+              },
+              "updated_at": {
+                "$ref": "#/components/schemas/updated_at"
+              }
+            }
+          }
+        }
+      },
+      "AuthenticatedUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "$ref": "#/components/schemas/name"
+              },
+              "username": {
+                "$ref": "#/components/schemas/username"
+              },
+              "id": {
+                "$ref": "#/components/schemas/id"
+              },
+              "created_at": {
+                "$ref": "#/components/schemas/created_at"
+              },
+              "updated_at": {
+                "$ref": "#/components/schemas/updated_at"
+              }
+            }
+          },
+          "token": {
+            "$ref": "#/components/schemas/jwtToken"
+          }
+        }
+      },
+      "ClientsGetResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/components/schemas/id"
+            },
+            "name": {
+              "$ref": "#/components/schemas/name"
+            },
+            "gender": {
+              "$ref": "#/components/schemas/gender"
+            },
+            "birthDate": {
+              "$ref": "#/components/schemas/birthDate"
+            },
+            "city": {
+              "$ref": "#/components/schemas/id"
+            },
+            "created_at": {
+              "$ref": "#/components/schemas/created_at"
+            },
+            "updated_at": {
+              "$ref": "#/components/schemas/updated_at"
+            },
+            "age": {
+              "$ref": "#/components/schemas/number"
+            }
+          }
+        }
+      },
+      "ClientListGetRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "city_id": {
+            "type": "string",
+            "example": "bcbcb486-2726-4d42-82de-05ab1138bf1f"
+          },
+          "state_id": {
+            "type": "string",
+            "example": "bcbcb486-2726-4d42-82de-05ab1138bf1f"
+          }
+        }
+      },
+      "ClientGetRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/gender"
+          },
+          "birthDate": {
+            "$ref": "#/components/schemas/birthDate"
+          },
+          "city_id": {
+            "$ref": "#/components/schemas/id"
+          }
+        }
+      },
+      "ClientGetResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/gender"
+          },
+          "birthDate": {
+            "$ref": "#/components/schemas/birthDate"
+          },
+          "city_id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/created_at"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/updated_at"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "bearerAuth",
+      "in": "header"
+    }
+  }
+}
