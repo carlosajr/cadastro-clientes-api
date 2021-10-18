@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AfterLoad, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { differenceInYears } from 'date-fns';
+
 import City from "@modules/cities/infra/typeorm/entities/City";
 
 @Entity('clients')
@@ -27,6 +29,13 @@ class Client {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  age: number;
+
+  @AfterLoad()
+  getAge() {
+    this.age = differenceInYears(new Date(), this.birthDate);
+  }
 }
 
 export default Client;
