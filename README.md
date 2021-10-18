@@ -71,9 +71,9 @@ Por fim, sua aplicação está pronta para uso, faça bom proveito ;)
 
 ## 📦 Desenvolvimento
 
-Para o desenvolvimento desse projeto, foi utilizada a Stack PostgreSQL, Express e NodeJS,
-Typescript, usando Autenticacao com JWT Tokens, tsyringe para injeção de dependência,
-Sentry para Logar os Erros, Swagger para documentação e Jest para tests automatizados
+Para o desenvolvimento desse projeto, foi utilizada a Stack PostgreSQL, Express, NodeJS,
+e Typescript, usando Autenticacao com JWT Tokens, tsyringe para injeção de dependência,
+Sentry para Logar os Erros, Swagger para documentação e Jest para tests automatizados.
 
 ## ✒️ Autor
 
