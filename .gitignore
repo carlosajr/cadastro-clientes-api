@@ -3,3 +3,4 @@ node_modules
 .editorconfig
 coverage
 dist
+ormconfig.json
