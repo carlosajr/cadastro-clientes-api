@@ -11,6 +11,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@sentry/node": "^6.13.3",
+    "@sentry/tracing": "^6.13.3",
     "@types/jsonwebtoken": "^8.5.5",
     "bcryptjs": "^2.4.3",
     "date-fns": "^2.25.0",
