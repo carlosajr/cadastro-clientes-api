@@ -1,7 +1,7 @@
 import FakeCitiesRepository from '@modules/cities/repositories/fakes/FakeCitiesRepository';
 import CreateCityService from '@modules/cities/services/CreateCityService';
+import FakeStatesRepository from '@modules/states/repositories/fakes/FakeStatesRepository';
 import AppError from '@shared/errors/AppError';
-import { uuid } from 'uuidv4';
 import Client from '../infra/typeorm/entities/Client';
 import FakeClientsRepository from '../repositories/fakes/FakeClientsRepository';
 import CreateClientService from './CreateClientService';
@@ -17,13 +17,16 @@ describe('UpdateClient', () => {
   beforeEach(async () => {
     const fakeClientsRepository = new FakeClientsRepository();
     const fakeCitiesRepository = new FakeCitiesRepository();
+    const fakeStatesRepository = new FakeStatesRepository();
     createClientService = new CreateClientService(fakeClientsRepository, fakeCitiesRepository);
     updateClientService = new UpdateClientService(fakeClientsRepository);
-    createCityService = new CreateCityService(fakeCitiesRepository);
+    createCityService = new CreateCityService(fakeCitiesRepository, fakeStatesRepository);
+
+    const state_id = '85e62d55-cb33-49c6-92e4-509162b5fea5';
 
     const city = await createCityService.execute({
       name: 'Test Name',
-      state_id: uuid()
+      state_id
     })
 
     id = city.id;

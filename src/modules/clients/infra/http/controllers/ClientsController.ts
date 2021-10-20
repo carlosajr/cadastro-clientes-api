@@ -31,7 +31,7 @@ class ClientsController {
     public async list(request: Request, response: Response): Promise<Response> {
         const listClientsService = container.resolve(ListClientsService);
 
-        const dataSerach = request.body;
+        const dataSerach = request.query;
 
         const clients = await listClientsService.execute(dataSerach);
 

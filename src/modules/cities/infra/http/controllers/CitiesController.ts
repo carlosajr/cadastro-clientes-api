@@ -20,7 +20,7 @@ class CitiesController {
   public async list(request: Request, response: Response): Promise<Response> {
     const listCityService = container.resolve(ListCitiesService);
 
-    const dataSerach = request.body;
+    const dataSerach = request.query;
 
     const cities = await listCityService.execute(dataSerach);
 

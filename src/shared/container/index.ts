@@ -12,8 +12,13 @@ import UserRepository from '@modules/users/infra/typeorm/repositories/UserReposi
 import IClientsRepository from '@modules/clients/repositories/IClientsRepository';
 import ClientsRepository from '@modules/clients/infra/typeorm/repositories/ClientsRepository';
 
+import IStatesRepository from '@modules/states/repositories/IStatesRepository';
+import StatesRepository from '@modules/states/infra/typeorm/repositories/StatesRepository';
+
 container.registerSingleton<ICitiesRepository>('CitiesRepository', CitiesRepository);
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 
 container.registerSingleton<IClientsRepository>('ClientsRepository', ClientsRepository);
+
+container.registerSingleton<IStatesRepository>('StatesRepository', StatesRepository);

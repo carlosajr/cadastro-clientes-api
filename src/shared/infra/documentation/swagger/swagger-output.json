@@ -102,24 +102,168 @@
         }
       }
     },
-    "/clients/": {
+    "/states": {
       "get": {
         "tags": [
-          "Clients"
+          "States"
         ],
-        "description": "Retorna os dados dos clients",
-        "operationId": "getClient",
+        "description": "Show state data",
+        "operationId": "getState",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados dos Estados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatesGetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "State not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/states/{id}": {
+      "get": {
+        "tags": [
+          "States"
+        ],
+        "description": "Show states data",
+        "operationId": "getStates",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Filter results by id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados dos Estados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/State"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "State not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cities": {
+      "post": {
+        "tags": [
+          "Cities"
+        ],
+        "description": "Create a new client",
+        "operationId": "postClient",
         "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ClientListGetRequest"
+                "$ref": "#/components/schemas/CityGetRequest"
               }
             }
           },
-          "required": false
+          "required": true
         },
+        "responses": {
+          "200": {
+            "description": "Cria o prestador e retorna os dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/City"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "State not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Cities"
+        ],
+        "description": "Retorna os dados dos clients",
+        "operationId": "getCities",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filter results by name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state_id",
+            "in": "query",
+            "description": "Filter results by State Id",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Retorna os dados dos Clientes",
@@ -127,6 +271,92 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ClientsGetResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cities/{id}": {
+      "get": {
+        "tags": [
+          "Cities"
+        ],
+        "description": "Show city data",
+        "operationId": "getCity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Filter results by name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados dos Clientes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/City"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "City not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/clients": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "Create a new client",
+        "operationId": "postClient",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientGetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cria o prestador e retorna os dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientGetResponse"
                 }
               }
             }
@@ -152,13 +382,124 @@
           }
         ]
       },
-      "post": {
+      "get": {
         "tags": [
           "Clients"
         ],
-        "description": "Create a new client",
-        "operationId": "postClient",
-        "parameters": [],
+        "description": "Retorna os dados dos clients",
+        "operationId": "getClients",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filter results by name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "description": "Filter results by gender",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "city_id",
+            "in": "query",
+            "description": "Filter results by City Id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state_id",
+            "in": "query",
+            "description": "Filter results by State Id",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados dos Clientes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientsGetResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/clients/{id}": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "Show client data",
+        "operationId": "getClient",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Filter results by name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados dos Clientes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientGetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "City not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "Update client data",
+        "operationId": "putClient",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Filter results by name",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -171,11 +512,72 @@
         },
         "responses": {
           "200": {
-            "description": "Cria o prestador e retorna os dados",
+            "description": "Client Updated",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ClientGetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Client not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "Delete client data",
+        "operationId": "deleteClient",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Filter results by name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Client Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientGetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Client not found"
                 }
               }
             }
@@ -261,6 +663,47 @@
           }
         }
       },
+      "City": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/created_at"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/updated_at"
+          },
+          "state": {
+            "$ref": "#/components/schemas/State"
+          }
+        }
+      },
+      "State": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "abbreviation": {
+            "type": "string",
+            "example": "PB"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/created_at"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/updated_at"
+          }
+        }
+      },
       "UserAuth": {
         "type": "object",
         "properties": {
@@ -325,6 +768,30 @@
           }
         }
       },
+      "StatesGetResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/components/schemas/id"
+            },
+            "name": {
+              "$ref": "#/components/schemas/name"
+            },
+            "abbreviation": {
+              "type": "string",
+              "example": "PB"
+            },
+            "created_at": {
+              "$ref": "#/components/schemas/created_at"
+            },
+            "updated_at": {
+              "$ref": "#/components/schemas/updated_at"
+            }
+          }
+        }
+      },
       "ClientsGetResponse": {
         "type": "array",
         "items": {
@@ -375,6 +842,17 @@
           "state_id": {
             "type": "string",
             "example": "bcbcb486-2726-4d42-82de-05ab1138bf1f"
+          }
+        }
+      },
+      "CityGetRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "state_id": {
+            "$ref": "#/components/schemas/id"
           }
         }
       },

@@ -49,10 +49,14 @@ class AuthenticateUserService {
   private generateToken(user: User): string {
     const { secret, expiresIn } = authConfig.jwt;
 
-    return sign({}, secret, {
+    const token = sign({}, secret, {
       subject: user.id,
       expiresIn: expiresIn,
     })
+
+    const prefixedToken = `bearer ${token}`;
+
+    return prefixedToken;
   }
 }
 

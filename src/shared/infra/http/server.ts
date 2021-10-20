@@ -33,7 +33,7 @@ app.use(express.json());
 
 app.use(routes);
 
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use(Sentry.Handlers.errorHandler());
 
